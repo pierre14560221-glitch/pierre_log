@@ -10,32 +10,50 @@
   <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    /* ページ全体 */
+    /* ===== 全体・テーマカラー（プリン系黄色） ===== */
+    :root {
+      --pudding-bg: #fff7d1;
+      --pudding-deep: #f1d37a;
+      --pudding-soft: #ffe7a6;
+      --choco: #5c4630;
+      --choco-soft: #6b5847;
+      --panel-bg: #fffaf0;
+    }
+
     body {
       margin: 0;
       font-family: "M PLUS Rounded 1c", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #fff7fb;
-      color: #333;
+      background: radial-gradient(circle at top, #fffbe2 0, var(--pudding-bg) 55%, #fef3cf 100%);
+      color: var(--choco-soft);
     }
 
-    /* 中身を真ん中に寄せる用の共通コンテナ */
     .page-container {
       max-width: 960px;
       margin: 0 auto;
       padding: 24px 16px 40px;
     }
 
-    /* ===== ヒーローエリア ===== */
+    h1 {
+      font-size: 2rem;
+      margin: 24px 0 8px;
+      color: var(--choco);
+    }
 
+    p {
+      margin: 0 0 12px;
+    }
+
+    /* ===== ヒーローエリア ===== */
     .hero-wrapper {
       position: relative;
       width: 100%;
-      height: 420px;     /* 高さはここで調整 */
+      height: 420px;       /* 高さはここで調整 */
       overflow: hidden;
-      background: #ddd;
+      background: var(--pudding-soft);
+      border-bottom: 4px solid var(--pudding-deep);
+      box-shadow: 0 6px 18px rgba(92, 70, 48, 0.18);
     }
 
-    /* 背景の部屋イラスト */
     .hero-background {
       position: absolute;
       inset: 0;
@@ -48,129 +66,174 @@
     /* 龍水本体 */
     .hero-character {
       position: absolute;
-      width: 210px;      /* サイズはお好みで */
+      width: 210px;
       height: auto;
       transform: translate(0, 0);
       transition: transform 6s ease-in-out;
       transform-origin: center bottom;
-      opacity: 1;
     }
 
-    /* ===== プレゼント欄 ===== */
-
-    .gift-panel {
-      margin: 24px 0 16px;
-      padding: 16px 18px;
-      border-radius: 16px;
-      background: #fff;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-    }
-
-    .gift-title {
-      margin: 0 0 8px;
-      font-size: 1.1rem;
-    }
-
-    .gift-buttons {
+    /* ===== ヒーロー内ギフト欄（左下） ===== */
+    .hero-gift-panel {
+      position: absolute;
+      left: 18px;
+      bottom: 18px;
       display: flex;
-      gap: 12px;
-      margin-bottom: 6px;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 18px;
+      background: rgba(255, 244, 207, 0.93);
+      box-shadow: 0 4px 10px rgba(92, 70, 48, 0.25);
+      backdrop-filter: blur(4px);
     }
 
-    .gift-button {
-      flex: 0 0 auto;
-      padding: 6px 14px;
-      border-radius: 999px;
+    .gift-icon {
+      position: relative;
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
       border: none;
+      padding: 4px;
+      background: var(--pudding-deep);
       cursor: pointer;
-      font-size: 0.9rem;
-      background: #ffe3f4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 0 rgba(92, 70, 48, 0.35);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
     }
 
-    .gift-button:hover {
-      background: #ffd3ec;
+    .gift-icon img {
+      max-width: 100%;
+      max-height: 100%;
+      pointer-events: none;
+      display: block;
     }
 
-    .gift-note {
-      margin: 0;
-      font-size: 0.8rem;
-      color: #777;
+    .gift-icon:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 0 rgba(92, 70, 48, 0.45);
+      background: #ffe39a;
     }
 
-    /* ===== メインコンテンツ（暫定） ===== */
-
-    h1 {
-      font-size: 2rem;
-      margin: 24px 0 8px;
+    .gift-icon:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 0 rgba(92, 70, 48, 0.35);
+      background: #f4c962;
     }
 
-    p {
-      margin: 0 0 12px;
+    /* ツールチップ */
+    .gift-tooltip {
+      position: absolute;
+      left: 50%;
+      bottom: 110%;
+      transform: translate(-50%, 4px);
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(92, 70, 48, 0.94);
+      color: #fffbe8;
+      font-size: 0.7rem;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.12s ease, transform 0.12s ease;
+    }
+
+    .gift-icon:hover .gift-tooltip {
+      opacity: 1;
+      transform: translate(-50%, -2px);
+    }
+
+    /* ===== 下の本文パネル ===== */
+    .content-panel {
+      margin-top: 28px;
+      padding: 20px 18px 24px;
+      border-radius: 20px;
+      background: var(--panel-bg);
+      box-shadow: 0 4px 14px rgba(92, 70, 48, 0.15);
     }
   </style>
 </head>
 <body>
 
-  <!-- ヒーローエリア（ここが巡回場所） -->
+  <!-- ヒーローエリア -->
   <section class="hero-wrapper" id="hero-area">
-    <!-- 背景イラスト -->
     <img src="img/hero-room.png" alt="龍水の部屋" class="hero-background">
 
-    <!-- 歩き回るキャラクター（最初は右歩き1コマ目） -->
+    <!-- 歩き回るキャラクター -->
     <img src="img/rightwalk1.png" alt="龍水" class="hero-character" id="hero-character">
+
+    <!-- 左下ギフト欄 -->
+    <div class="hero-gift-panel">
+      <button class="gift-icon" data-gift="bread">
+        <img src="img/icon-bread.png" alt="パン">
+        <span class="gift-tooltip">フランソワの完全栄養食</span>
+      </button>
+      <button class="gift-icon" data-gift="softcream">
+        <img src="img/icon-softcream.png" alt="ソフトクリーム">
+        <span class="gift-tooltip">ソフトクリーム</span>
+      </button>
+    </div>
   </section>
 
+  <!-- 下の本文。ここにゲーム一覧とか置いていく -->
   <div class="page-container">
-
-    <!-- プレゼント欄 -->
-    <section class="gift-panel">
-      <p class="gift-title">プレゼントをあげる</p>
-      <div class="gift-buttons">
-        <button class="gift-button" data-gift="bread">パン</button>
-        <button class="gift-button" data-gift="softcream">ソフトクリーム</button>
-      </div>
-      <p class="gift-note">好きなプレゼントを押すと、龍水がちょっとだけ反応します。</p>
-    </section>
-
-    <!-- この下はとりあえずのテキスト。あとでゲーム一覧などに差し替えOK -->
-    <h1>お肴亭のゲーム置き場</h1>
-    <p>この下にゲーム一覧やイラストギャラリーを置いていく予定です。</p>
+    <div class="content-panel">
+      <h1>お肴亭のゲーム置き場</h1>
+      <p>この下にゲーム一覧やイラストギャラリーを置いていく予定です。</p>
+    </div>
   </div>
 
-    <script>
-    const heroArea = document.getElementById("hero-area");
-    const heroChar = document.getElementById("hero-character");
-    const giftButtons = document.querySelectorAll(".gift-button");
+  <script>
+    const heroArea   = document.getElementById("hero-area");
+    const heroChar   = document.getElementById("hero-character");
+    const giftIcons  = document.querySelectorAll(".gift-icon");
 
-    // 歩きモーション画像
+    /* 歩きモーション画像 */
     const walkRightImages = ["img/rightwalk1.png", "img/rightwalk2.png"];
     const walkLeftImages  = ["img/leftwalk1.png",  "img/leftwalk2.png"];
 
-    // プレゼント反応画像（向きで変えないものだけここに）
-    const giftImages = {
-      softcream: "img/ryusui-softcream.png",
+    /* プレゼント反応画像（向き別） */
+    const presentImages = {
+      bread: {
+        right: "img/ryusui-rightBread.png",
+        left:  "img/ryusui-leftBread.png",
+      },
+      softcream: {
+        right: "img/ryusui-rightSoftcream.png",
+        left:  "img/ryusui-leftSoftcream.png",
+      },
     };
 
-    // 状態
+    /* 状態 */
     let currentX = 0;
     let currentY = 0;
-    let facing = 1; // 1:右, -1:左
+    let facing   = 1;  // 1:右, -1:左
     let currentWalkImages = walkRightImages;
 
-    let walkFrame = 0;
+    let walkFrame    = 0;
     let walkInterval = null;
 
-    let isResting = false;   // 休憩中（画面から消えている）
-    let isReacting = false;  // プレゼント反応中
+    let isReacting = false;  // プレゼント反応中かどうか
 
-    // 最初の位置を中央付近に
-    function setInitialPosition() {
-      const areaRect = heroArea.getBoundingClientRect();
-      const charWidth = heroChar.offsetWidth;
+    /* ===== 位置関連 ===== */
+
+    // ランダムな初期位置
+    function setInitialPositionRandom() {
+      const areaRect   = heroArea.getBoundingClientRect();
+      const charWidth  = heroChar.offsetWidth;
       const charHeight = heroChar.offsetHeight;
 
-      currentX = (areaRect.width - charWidth) / 2;
-      currentY = (areaRect.height - charHeight) / 2 + 40;
+      const marginX = 20;
+      const minX = marginX;
+      const maxX = areaRect.width - charWidth - marginX;
+
+      // 上すぎても下すぎても変なので、縦方向は少し絞る
+      const minY = areaRect.height * 0.25;
+      const maxY = areaRect.height - charHeight - 10;
+
+      currentX = minX + Math.random() * Math.max(maxX - minX, 0);
+      currentY = minY + Math.random() * Math.max(maxY - minY, 0);
 
       heroChar.style.transform = `translate(${currentX}px, ${currentY}px)`;
     }
@@ -184,10 +247,10 @@
       walkFrame = 0;
 
       walkInterval = setInterval(() => {
-        if (isResting || isReacting) return;
+        if (isReacting) return;
         walkFrame = (walkFrame + 1) % currentWalkImages.length;
         heroChar.src = currentWalkImages[walkFrame];
-      }, 250); // 足踏みの速さ
+      }, 250);
     }
 
     function stopWalkAnimation() {
@@ -200,20 +263,23 @@
 
     // ランダム移動
     function moveCharacter() {
-      if (isResting || isReacting) return;
+      if (isReacting) return;
 
-      const areaRect = heroArea.getBoundingClientRect();
-      const charWidth = heroChar.offsetWidth;
+      const areaRect   = heroArea.getBoundingClientRect();
+      const charWidth  = heroChar.offsetWidth;
       const charHeight = heroChar.offsetHeight;
 
-      const maxX = areaRect.width - charWidth;
-      const maxY = areaRect.height - charHeight;
-      const margin = 16;
+      const marginX = 20;
+      const minX = marginX;
+      const maxX = areaRect.width - charWidth - marginX;
 
-      const targetX = margin + Math.random() * Math.max(maxX - margin * 2, 0);
-      const targetY = margin + Math.random() * Math.max(maxY - margin * 2, 0);
+      const minY = areaRect.height * 0.25;
+      const maxY = areaRect.height - charHeight - 10;
 
-      // 向き
+      const targetX = minX + Math.random() * Math.max(maxX - minX, 0);
+      const targetY = minY + Math.random() * Math.max(maxY - minY, 0);
+
+      // 向き判定
       facing = targetX < currentX ? -1 : 1;
 
       // 歩き開始
@@ -227,84 +293,58 @@
 
       // 数秒後に足踏み停止
       setTimeout(() => {
-        if (!isResting && !isReacting) {
+        if (!isReacting) {
           stopWalkAnimation();
         }
       }, 6000);
-
-      // たまに休憩
-      const shouldRest = Math.random() < 0.25;
-      if (shouldRest) {
-        startRest();
-      }
     }
 
-    // 休憩モード：しばらく画面から消える
-    function startRest() {
-      if (isResting || isReacting) return;
-      isResting = true;
+    /* ===== プレゼント関連 ===== */
 
-      stopWalkAnimation();
-      heroChar.style.opacity = "0";
-
-      setTimeout(() => {
-        heroChar.style.opacity = "1";
-        isResting = false;
-        heroChar.src = currentWalkImages[0];
-      }, 3000); // 消えている時間
-    }
-
-    // プレゼント反応
     function givePresent(type) {
-      if (isReacting || isResting) return;
+      if (isReacting) return;
 
-      let imgPath = "";
-
-      if (type === "bread") {
-        // パンだけ向きで分岐
-        imgPath = (facing === 1)
-          ? "img/ryusui-rightBread.png"
-          : "img/ryusui-leftBread.png";
-      } else {
-        imgPath = giftImages[type];
-      }
-
-      if (!imgPath) return;
+      const set = presentImages[type];
+      if (!set) return;
 
       isReacting = true;
       stopWalkAnimation();
 
-      heroChar.style.opacity = "1"; // 念のため表示
+      const imgPath = (facing === 1) ? set.right : set.left;
       heroChar.src = imgPath;
 
+      // 一定時間表示したら元の立ちポーズに戻る
       setTimeout(() => {
-        heroChar.src = currentWalkImages[0];
         isReacting = false;
-      }, 2500); // プレゼント反応の表示時間
+        heroChar.src = currentWalkImages[0];
+      }, 2500);
     }
 
-    // 初期化
+    /* ===== 初期化 ===== */
+
     window.addEventListener("load", () => {
       // 最初は右向き立ち
       currentWalkImages = walkRightImages;
       heroChar.src = currentWalkImages[0];
 
-      setInitialPosition();
+      setInitialPositionRandom();
 
       // 数秒ごとに移動
       setInterval(moveCharacter, 7000);
 
-      // プレゼントボタン
-      giftButtons.forEach(btn => {
+      // ギフトアイコン
+      giftIcons.forEach(btn => {
         btn.addEventListener("click", () => {
           const giftType = btn.dataset.gift;
           givePresent(giftType);
         });
       });
 
-      // 画面サイズ変更時の位置リセット
+      // 画面サイズ変更時：位置を取り直す（簡単リセット）
       window.addEventListener("resize", () => {
-        setInitialPosition();
+        setInitialPositionRandom();
       });
     });
   </script>
+</body>
+</html>
