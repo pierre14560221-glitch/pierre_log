@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>ねこのゲーム置き場</title>
+  <title>お肴亭のゲーム置き場</title>
 
   <!-- 丸めフォント -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -146,9 +146,8 @@
     const walkRightImages = ["img/rightwalk1.png", "img/rightwalk2.png"];
     const walkLeftImages  = ["img/leftwalk1.png",  "img/leftwalk2.png"];
 
-    // プレゼント反応画像
+    // プレゼント反応画像（向きで変えないものだけここに）
     const giftImages = {
-      bread: "img/ryusui-Bread.png",
       softcream: "img/ryusui-softcream.png",
     };
 
@@ -211,90 +210,4 @@
       const margin = 16;
 
       const targetX = margin + Math.random() * Math.max(maxX - margin * 2, 0);
-      const targetY = margin + Math.random() * Math.max(maxY - margin * 2, 0);
-
-      // 向き
-      facing = targetX < currentX ? -1 : 1;
-
-      // 歩き開始
-      startWalkAnimation(facing);
-
-      heroChar.style.transform = `translate(${targetX}px, ${targetY}px)`;
-
-      currentX = targetX;
-      currentY = targetY;
-
-      // 歩き終わりで足踏み停止
-      setTimeout(() => {
-        if (!isResting && !isReacting) {
-          stopWalkAnimation();
-        }
-      }, 6000);
-
-      // たまに読書モード（画面から消える）
-      const shouldRest = Math.random() < 0.25;
-      if (shouldRest) {
-        startRest();
-      }
-    }
-
-    // 読書モード：しばらく画面から消える
-    function startRest() {
-      if (isResting || isReacting) return;
-      isResting = true;
-
-      stopWalkAnimation();
-      heroChar.style.opacity = "0";
-
-      setTimeout(() => {
-        heroChar.style.opacity = "1";
-        isResting = false;
-        heroChar.src = currentWalkImages[0];
-      }, 3000); // 消えている時間
-    }
-
-    // プレゼント反応
-    function givePresent(type) {
-      if (isReacting || isResting) return;
-
-      const img = giftImages[type];
-      if (!img) return;
-
-      isReacting = true;
-      stopWalkAnimation();
-
-      heroChar.style.opacity = "1"; // 念のため表示
-      heroChar.src = img;
-
-      setTimeout(() => {
-        heroChar.src = currentWalkImages[0];
-        isReacting = false;
-      }, 2500); // プレゼント反応の表示時間
-    }
-
-    window.addEventListener("load", () => {
-      // 最初は右向き立ち
-      currentWalkImages = walkRightImages;
-      heroChar.src = currentWalkImages[0];
-
-      setInitialPosition();
-
-      // 数秒ごとに移動
-      setInterval(moveCharacter, 7000);
-
-      // プレゼントボタン
-      giftButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
-          const giftType = btn.dataset.gift;
-          givePresent(giftType);
-        });
-      });
-
-      // 画面サイズ変更時の位置リセット
-      window.addEventListener("resize", () => {
-        setInitialPosition();
-      });
-    });
-  </script>
-</body>
-</html>
+      const targetY = margin + Math.random()
