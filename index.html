@@ -2,175 +2,244 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>私のゲーム置き場</title>
+  <title>ねこのゲーム置き場</title>
 
-  <!-- かわいい丸ゴシックフォント（Google Fonts） -->
+  <!-- 丸めフォント（お好みで変えてOK） -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    /* 全体 */
+    /* ページ全体 */
     body {
       margin: 0;
-      padding: 0;
       font-family: "M PLUS Rounded 1c", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #fff7fb;            /* うすいピンク背景 */
+      background: #fff7fb;
       color: #333;
     }
 
-    /* 真ん中に箱を置く */
-    .container {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 24px;
-      background: #ffffff;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    /* 中身を真ん中に寄せる用の共通コンテナ */
+    .page-container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
     }
 
-    /* ヘッダー */
-    .site-title {
-      font-size: 2.4rem;
-      margin: 0 0 4px;
-    }
-    .site-subtitle {
-      margin: 0 0 24px;
-      color: #777;
-      font-size: 0.95rem;
-    }
+    /* ===== ヒーローエリア ===== */
 
-    /* あとで自作イラストを差し込む用のエリア */
-    .hero {
+    .hero-wrapper {
+      position: relative;
       width: 100%;
-      height: 220px;
-      border-radius: 16px;
-      background: repeating-linear-gradient(
-        45deg,
-        #ffe3f4,
-        #ffe3f4 10px,
-        #fdf9ff 10px,
-        #fdf9ff 20px
-      );
+      height: 420px;                 /* 高さはここで調整 */
+      overflow: hidden;
+      background: #ddd;
+    }
+
+    /* 背景の部屋イラスト */
+    .hero-background {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;             /* 余白なしでちょうどよくトリミング */
+      pointer-events: none;
+    }
+
+    /* 龍水 */
+    .hero-character {
+      position: absolute;
+      width: 260px;                  /* 画像サイズに合わせて調整 */
+      height: auto;
+      transform: translate(0, 0);
+      transition: transform 6s ease-in-out;
+      transform-origin: center bottom;   /* ひっくり返す軸を足元に寄せる */
+    }
+
+    /* クリックの誘導テキスト */
+    .hero-click-hint {
+      position: absolute;
+      left: 50%;
+      bottom: 16px;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 0.9rem;
+    }
+
+    /* プレゼント演出用のハート（仮） */
+    .hero-heart {
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #ff9ac8;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 24px;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-text {
-      font-size: 1.2rem;
-      background: rgba(255,255,255,0.8);
-      padding: 8px 16px;
-      border-radius: 999px;
+      font-size: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.3s ease-out, transform 0.8s ease-out;
     }
 
-    /* ゲーム一覧 */
-    .section-title {
-      font-size: 1.4rem;
-      margin: 24px 0 12px;
+    .hero-heart.is-visible {
+      opacity: 1;
+      transform: translate(-50%, -120%);
     }
 
-    .game-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-      list-style: none;
-      padding: 0;
-      margin: 0 0 24px;
+    /* ===== メインコンテンツ（暫定） ===== */
+
+    h1 {
+      font-size: 2rem;
+      margin: 24px 0 8px;
     }
 
-    .game-card {
-      background: #fffafd;
-      border-radius: 16px;
-      padding: 14px 16px;
-      border: 1px solid #ffe2ff;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .game-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
-    }
-
-    .game-title {
-      margin: 0 0 4px;
-      font-size: 1.1rem;
-    }
-
-    .game-tag {
-      display: inline-block;
-      font-size: 0.75rem;
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: #ffeaf4;
-      color: #c25f94;
-      margin-bottom: 6px;
-    }
-
-    .game-desc {
-      margin: 0 0 8px;
-      font-size: 0.9rem;
-      color: #555;
-    }
-
-    .game-link {
-      font-size: 0.9rem;
-      text-decoration: none;
-      color: #4b61c6;
-    }
-    .game-link:hover {
-      text-decoration: underline;
-    }
-
-    /* フッター */
-    footer {
-      font-size: 0.8rem;
-      color: #888;
-      text-align: center;
-      margin-top: 12px;
+    p {
+      margin: 0 0 12px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1 class="site-title">私のゲーム置き場</h1>
-      <p class="site-subtitle">つくったゲームを、すこしずつ並べていく場所。</p>
 
-      <!-- ここにそのうち自作イラストを<img>で差し込んでもOK -->
-      <div class="hero">
-        <div class="hero-text">いらっしゃいませ。ゲームで遊んでいってね。</div>
-      </div>
-    </header>
+  <!-- ヒーローエリア（ここが巡回場所） -->
+  <section class="hero-wrapper" id="hero-area">
+    <!-- 背景イラスト -->
+    <img src="img/hero-room.png" alt="龍水の部屋" class="hero-background">
 
-    <main>
-      <h2 class="section-title">ブラウザゲーム</h2>
-      <ul class="game-list">
-        <li class="game-card">
-          <p class="game-tag">アクション</p>
-          <h3 class="game-title">ゲームタイトル1</h3>
-          <p class="game-desc">ジャンプしてゴールを目指す、短めのアクションゲーム。</p>
-          <a class="game-link" href="ゲームURL1" target="_blank" rel="noopener noreferrer">
-            ▶ このゲームで遊ぶ！
-          </a>
-        </li>
+    <!-- 歩き回るキャラクター -->
+    <img src="img/ryusui-walk.png" alt="龍水" class="hero-character" id="hero-character">
 
-        <li class="game-card">
-          <p class="game-tag">パズル</p>
-          <h3 class="game-title">ゲームタイトル2</h3>
-          <p class="game-desc">ブロックを動かしてゴールまでの道をつくるパズル。</p>
-          <a class="game-link" href="ゲームURL2" target="_blank" rel="noopener noreferrer">
-            ▶ このゲームで遊ぶ
-          </a>
-        </li>
-      </ul>
-    </main>
+    <!-- クリック誘導テキスト -->
+    <div class="hero-click-hint">click でプレゼント</div>
 
-    <footer>
-      © 2025 おさかな
-    </footer>
+    <!-- プレゼント演出用ハート -->
+    <div class="hero-heart" id="hero-heart">❤</div>
+  </section>
+
+  <!-- 以下はとりあえずのテキスト。あとでゲーム一覧などに差し替えればOK -->
+  <div class="page-container">
+    <h1>ねこのゲーム置き場</h1>
+    <p>この下にゲーム一覧やイラストギャラリーを置いていく予定です。</p>
   </div>
+
+  <script>
+    // ヒーローエリア関連のJS
+
+    const heroArea = document.getElementById("hero-area");
+    const heroChar = document.getElementById("hero-character");
+    const heroHeart = document.getElementById("hero-heart");
+
+    // 現在位置と向き
+    let currentX = 0;
+    let currentY = 0;
+    let facing = 1;       // 1: 右向き, -1: 左向き
+
+    // 読書中かどうか
+    let isReading = false;
+
+    // 初期位置を中央あたりに置く
+    function setInitialPosition() {
+      const areaRect = heroArea.getBoundingClientRect();
+      const charWidth = heroChar.offsetWidth;
+      const charHeight = heroChar.offsetHeight;
+
+      currentX = (areaRect.width - charWidth) / 2;
+      currentY = (areaRect.height - charHeight) / 2 + 40; // 少し下寄せ
+
+      heroChar.style.transform =
+        `translate(${currentX}px, ${currentY}px) scaleX(${facing})`;
+    }
+
+    // ランダムな位置に移動させる
+    function moveCharacter() {
+      if (isReading) return; // 読書中は動かない
+
+      const areaRect = heroArea.getBoundingClientRect();
+      const charWidth = heroChar.offsetWidth;
+      const charHeight = heroChar.offsetHeight;
+
+      const maxX = areaRect.width - charWidth;
+      const maxY = areaRect.height - charHeight;
+
+      // 安全マージンをちょっと付ける（壁にめり込まないように）
+      const margin = 16;
+
+      const targetX = margin + Math.random() * Math.max(maxX - margin * 2, 0);
+      const targetY = margin + Math.random() * Math.max(maxY - margin * 2, 0);
+
+      // どっちを向くか決める
+      facing = targetX < currentX ? -1 : 1;
+
+      heroChar.style.transform =
+        `translate(${targetX}px, ${targetY}px) scaleX(${facing})`;
+
+      currentX = targetX;
+      currentY = targetY;
+
+      // 時々、本を読んで一旦止まる
+      const shouldRead = Math.random() < 0.3; // 30%くらいの確率
+      if (shouldRead) {
+        startReading();
+      }
+    }
+
+    // 読書モードに切り替え
+    function startReading() {
+      isReading = true;
+
+      // ちょっと経ってから読書開始すると自然
+      setTimeout(() => {
+        heroChar.src = "img/ryusui-read.png";
+
+        // 数秒読んだら通常に戻す
+        setTimeout(() => {
+          heroChar.src = "img/ryusui-walk.png";
+          isReading = false;
+        }, 3000);
+      }, 800);
+    }
+
+    // プレゼント演出
+    function givePresent() {
+      // ハートをキャラの近くに出す
+      const charRect = heroChar.getBoundingClientRect();
+      const areaRect = heroArea.getBoundingClientRect();
+
+      const centerX = charRect.left + charRect.width / 2 - areaRect.left;
+      const centerY = charRect.top + charRect.height / 2 - areaRect.top;
+
+      heroHeart.style.left = centerX + "px";
+      heroHeart.style.top = centerY + "px";
+
+      // アニメーション用クラス付与
+      heroHeart.classList.add("is-visible");
+
+      // ちょっとだけ嬉しそうに読書モード（差分が増えたらここ変えてOK）
+      startReading();
+
+      // 少し待ってから消す
+      setTimeout(() => {
+        heroHeart.classList.remove("is-visible");
+      }, 800);
+    }
+
+    // 初期化
+    window.addEventListener("load", () => {
+      setInitialPosition();
+
+      // 数秒ごとに移動
+      setInterval(moveCharacter, 7000);
+
+      // クリックでプレゼント
+      heroArea.addEventListener("click", givePresent);
+
+      // 画面サイズが変わったら位置をリセット
+      window.addEventListener("resize", () => {
+        setInitialPosition();
+      });
+    });
+  </script>
 </body>
 </html>
