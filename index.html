@@ -133,11 +133,11 @@
     </section>
 
     <!-- この下はとりあえずのテキスト。あとでゲーム一覧などに差し替えOK -->
-    <h1>ねこのゲーム置き場</h1>
+    <h1>お肴亭のゲーム置き場</h1>
     <p>この下にゲーム一覧やイラストギャラリーを置いていく予定です。</p>
   </div>
 
-  <script>
+    <script>
     const heroArea = document.getElementById("hero-area");
     const heroChar = document.getElementById("hero-character");
     const giftButtons = document.querySelectorAll(".gift-button");
@@ -160,9 +160,10 @@
     let walkFrame = 0;
     let walkInterval = null;
 
-    let isResting = false;   // 読書＝画面から消えている状態
+    let isResting = false;   // 休憩中（画面から消えている）
     let isReacting = false;  // プレゼント反応中
 
+    // 最初の位置を中央付近に
     function setInitialPosition() {
       const areaRect = heroArea.getBoundingClientRect();
       const charWidth = heroChar.offsetWidth;
@@ -210,4 +211,100 @@
       const margin = 16;
 
       const targetX = margin + Math.random() * Math.max(maxX - margin * 2, 0);
-      const targetY = margin + Math.random()
+      const targetY = margin + Math.random() * Math.max(maxY - margin * 2, 0);
+
+      // 向き
+      facing = targetX < currentX ? -1 : 1;
+
+      // 歩き開始
+      startWalkAnimation(facing);
+
+      // 目的地へゆっくり移動
+      heroChar.style.transform = `translate(${targetX}px, ${targetY}px)`;
+
+      currentX = targetX;
+      currentY = targetY;
+
+      // 数秒後に足踏み停止
+      setTimeout(() => {
+        if (!isResting && !isReacting) {
+          stopWalkAnimation();
+        }
+      }, 6000);
+
+      // たまに休憩
+      const shouldRest = Math.random() < 0.25;
+      if (shouldRest) {
+        startRest();
+      }
+    }
+
+    // 休憩モード：しばらく画面から消える
+    function startRest() {
+      if (isResting || isReacting) return;
+      isResting = true;
+
+      stopWalkAnimation();
+      heroChar.style.opacity = "0";
+
+      setTimeout(() => {
+        heroChar.style.opacity = "1";
+        isResting = false;
+        heroChar.src = currentWalkImages[0];
+      }, 3000); // 消えている時間
+    }
+
+    // プレゼント反応
+    function givePresent(type) {
+      if (isReacting || isResting) return;
+
+      let imgPath = "";
+
+      if (type === "bread") {
+        // パンだけ向きで分岐
+        imgPath = (facing === 1)
+          ? "img/ryusui-rightBread.png"
+          : "img/ryusui-leftBread.png";
+      } else {
+        imgPath = giftImages[type];
+      }
+
+      if (!imgPath) return;
+
+      isReacting = true;
+      stopWalkAnimation();
+
+      heroChar.style.opacity = "1"; // 念のため表示
+      heroChar.src = imgPath;
+
+      setTimeout(() => {
+        heroChar.src = currentWalkImages[0];
+        isReacting = false;
+      }, 2500); // プレゼント反応の表示時間
+    }
+
+    // 初期化
+    window.addEventListener("load", () => {
+      // 最初は右向き立ち
+      currentWalkImages = walkRightImages;
+      heroChar.src = currentWalkImages[0];
+
+      setInitialPosition();
+
+      // 数秒ごとに移動
+      setInterval(moveCharacter, 7000);
+
+      // プレゼントボタン
+      giftButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const giftType = btn.dataset.gift;
+          givePresent(giftType);
+        });
+      });
+
+      // 画面サイズ変更時の位置リセット
+      window.addEventListener("resize", () => {
+        setInitialPosition();
+      });
+    });
+  </script>
