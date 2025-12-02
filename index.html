@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>ねこのゲーム置き場</title>
 
-  <!-- 丸めフォント（お好みで変えてOK） -->
+  <!-- 丸めフォント -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
@@ -30,7 +30,7 @@
     .hero-wrapper {
       position: relative;
       width: 100%;
-      height: 420px;                 /* 高さはここで調整 */
+      height: 420px;     /* 高さはここで調整 */
       overflow: hidden;
       background: #ddd;
     }
@@ -41,52 +41,60 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;             /* 余白なしでちょうどよくトリミング */
+      object-fit: cover;
       pointer-events: none;
     }
 
-    /* 龍水 */
+    /* 龍水本体 */
     .hero-character {
       position: absolute;
-      width: 260px;                  /* 画像サイズに合わせて調整 */
+      width: 210px;      /* サイズはお好みで */
       height: auto;
       transform: translate(0, 0);
       transition: transform 6s ease-in-out;
-      transform-origin: center bottom;   /* ひっくり返す軸を足元に寄せる */
-    }
-
-    /* クリックの誘導テキスト */
-    .hero-click-hint {
-      position: absolute;
-      left: 50%;
-      bottom: 16px;
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 999px;
-      padding: 4px 12px;
-      font-size: 0.9rem;
-    }
-
-    /* プレゼント演出用のハート（仮） */
-    .hero-heart {
-      position: absolute;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: #ff9ac8;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      opacity: 0;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      transition: opacity 0.3s ease-out, transform 0.8s ease-out;
-    }
-
-    .hero-heart.is-visible {
+      transform-origin: center bottom;
       opacity: 1;
-      transform: translate(-50%, -120%);
+    }
+
+    /* ===== プレゼント欄 ===== */
+
+    .gift-panel {
+      margin: 24px 0 16px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    }
+
+    .gift-title {
+      margin: 0 0 8px;
+      font-size: 1.1rem;
+    }
+
+    .gift-buttons {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .gift-button {
+      flex: 0 0 auto;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+      background: #ffe3f4;
+    }
+
+    .gift-button:hover {
+      background: #ffd3ec;
+    }
+
+    .gift-note {
+      margin: 0;
+      font-size: 0.8rem;
+      color: #777;
     }
 
     /* ===== メインコンテンツ（暫定） ===== */
@@ -108,53 +116,91 @@
     <!-- 背景イラスト -->
     <img src="img/hero-room.png" alt="龍水の部屋" class="hero-background">
 
-    <!-- 歩き回るキャラクター -->
-    <img src="img/ryusui-walk.png" alt="龍水" class="hero-character" id="hero-character">
-
-    <!-- クリック誘導テキスト -->
-    <div class="hero-click-hint">click でプレゼント</div>
-
-    <!-- プレゼント演出用ハート -->
-    <div class="hero-heart" id="hero-heart">❤</div>
+    <!-- 歩き回るキャラクター（最初は右歩き1コマ目） -->
+    <img src="img/rightwalk1.png" alt="龍水" class="hero-character" id="hero-character">
   </section>
 
-  <!-- 以下はとりあえずのテキスト。あとでゲーム一覧などに差し替えればOK -->
   <div class="page-container">
+
+    <!-- プレゼント欄 -->
+    <section class="gift-panel">
+      <p class="gift-title">プレゼントをあげる</p>
+      <div class="gift-buttons">
+        <button class="gift-button" data-gift="bread">パン</button>
+        <button class="gift-button" data-gift="softcream">ソフトクリーム</button>
+      </div>
+      <p class="gift-note">好きなプレゼントを押すと、龍水がちょっとだけ反応します。</p>
+    </section>
+
+    <!-- この下はとりあえずのテキスト。あとでゲーム一覧などに差し替えOK -->
     <h1>ねこのゲーム置き場</h1>
     <p>この下にゲーム一覧やイラストギャラリーを置いていく予定です。</p>
   </div>
 
   <script>
-    // ヒーローエリア関連のJS
-
     const heroArea = document.getElementById("hero-area");
     const heroChar = document.getElementById("hero-character");
-    const heroHeart = document.getElementById("hero-heart");
+    const giftButtons = document.querySelectorAll(".gift-button");
 
-    // 現在位置と向き
+    // 歩きモーション画像
+    const walkRightImages = ["img/rightwalk1.png", "img/rightwalk2.png"];
+    const walkLeftImages  = ["img/leftwalk1.png",  "img/leftwalk2.png"];
+
+    // プレゼント反応画像
+    const giftImages = {
+      bread: "img/ryusui-Bread.png",
+      softcream: "img/ryusui-softcream.png",
+    };
+
+    // 状態
     let currentX = 0;
     let currentY = 0;
-    let facing = 1;       // 1: 右向き, -1: 左向き
+    let facing = 1; // 1:右, -1:左
+    let currentWalkImages = walkRightImages;
 
-    // 読書中かどうか
-    let isReading = false;
+    let walkFrame = 0;
+    let walkInterval = null;
 
-    // 初期位置を中央あたりに置く
+    let isResting = false;   // 読書＝画面から消えている状態
+    let isReacting = false;  // プレゼント反応中
+
     function setInitialPosition() {
       const areaRect = heroArea.getBoundingClientRect();
       const charWidth = heroChar.offsetWidth;
       const charHeight = heroChar.offsetHeight;
 
       currentX = (areaRect.width - charWidth) / 2;
-      currentY = (areaRect.height - charHeight) / 2 + 40; // 少し下寄せ
+      currentY = (areaRect.height - charHeight) / 2 + 40;
 
-      heroChar.style.transform =
-        `translate(${currentX}px, ${currentY}px) scaleX(${facing})`;
+      heroChar.style.transform = `translate(${currentX}px, ${currentY}px)`;
     }
 
-    // ランダムな位置に移動させる
+    // 歩きアニメ開始（direction: 1=右, -1=左）
+    function startWalkAnimation(direction) {
+      if (walkInterval) return;
+      currentWalkImages = direction === 1 ? walkRightImages : walkLeftImages;
+
+      heroChar.src = currentWalkImages[0];
+      walkFrame = 0;
+
+      walkInterval = setInterval(() => {
+        if (isResting || isReacting) return;
+        walkFrame = (walkFrame + 1) % currentWalkImages.length;
+        heroChar.src = currentWalkImages[walkFrame];
+      }, 250); // 足踏みの速さ
+    }
+
+    function stopWalkAnimation() {
+      if (!walkInterval) return;
+      clearInterval(walkInterval);
+      walkInterval = null;
+      walkFrame = 0;
+      heroChar.src = currentWalkImages[0];
+    }
+
+    // ランダム移動
     function moveCharacter() {
-      if (isReading) return; // 読書中は動かない
+      if (isResting || isReacting) return;
 
       const areaRect = heroArea.getBoundingClientRect();
       const charWidth = heroChar.offsetWidth;
@@ -162,80 +208,89 @@
 
       const maxX = areaRect.width - charWidth;
       const maxY = areaRect.height - charHeight;
-
-      // 安全マージンをちょっと付ける（壁にめり込まないように）
       const margin = 16;
 
       const targetX = margin + Math.random() * Math.max(maxX - margin * 2, 0);
       const targetY = margin + Math.random() * Math.max(maxY - margin * 2, 0);
 
-      // どっちを向くか決める
+      // 向き
       facing = targetX < currentX ? -1 : 1;
 
-      heroChar.style.transform =
-        `translate(${targetX}px, ${targetY}px) scaleX(${facing})`;
+      // 歩き開始
+      startWalkAnimation(facing);
+
+      heroChar.style.transform = `translate(${targetX}px, ${targetY}px)`;
 
       currentX = targetX;
       currentY = targetY;
 
-      // 時々、本を読んで一旦止まる
-      const shouldRead = Math.random() < 0.3; // 30%くらいの確率
-      if (shouldRead) {
-        startReading();
+      // 歩き終わりで足踏み停止
+      setTimeout(() => {
+        if (!isResting && !isReacting) {
+          stopWalkAnimation();
+        }
+      }, 6000);
+
+      // たまに読書モード（画面から消える）
+      const shouldRest = Math.random() < 0.25;
+      if (shouldRest) {
+        startRest();
       }
     }
 
-    // 読書モードに切り替え
-    function startReading() {
-      isReading = true;
+    // 読書モード：しばらく画面から消える
+    function startRest() {
+      if (isResting || isReacting) return;
+      isResting = true;
 
-      // ちょっと経ってから読書開始すると自然
+      stopWalkAnimation();
+      heroChar.style.opacity = "0";
+
       setTimeout(() => {
-        heroChar.src = "img/ryusui-read.png";
-
-        // 数秒読んだら通常に戻す
-        setTimeout(() => {
-          heroChar.src = "img/ryusui-walk.png";
-          isReading = false;
-        }, 3000);
-      }, 800);
+        heroChar.style.opacity = "1";
+        isResting = false;
+        heroChar.src = currentWalkImages[0];
+      }, 3000); // 消えている時間
     }
 
-    // プレゼント演出
-    function givePresent() {
-      // ハートをキャラの近くに出す
-      const charRect = heroChar.getBoundingClientRect();
-      const areaRect = heroArea.getBoundingClientRect();
+    // プレゼント反応
+    function givePresent(type) {
+      if (isReacting || isResting) return;
 
-      const centerX = charRect.left + charRect.width / 2 - areaRect.left;
-      const centerY = charRect.top + charRect.height / 2 - areaRect.top;
+      const img = giftImages[type];
+      if (!img) return;
 
-      heroHeart.style.left = centerX + "px";
-      heroHeart.style.top = centerY + "px";
+      isReacting = true;
+      stopWalkAnimation();
 
-      // アニメーション用クラス付与
-      heroHeart.classList.add("is-visible");
+      heroChar.style.opacity = "1"; // 念のため表示
+      heroChar.src = img;
 
-      // ちょっとだけ嬉しそうに読書モード（差分が増えたらここ変えてOK）
-      startReading();
-
-      // 少し待ってから消す
       setTimeout(() => {
-        heroHeart.classList.remove("is-visible");
-      }, 800);
+        heroChar.src = currentWalkImages[0];
+        isReacting = false;
+      }, 2500); // プレゼント反応の表示時間
     }
 
-    // 初期化
     window.addEventListener("load", () => {
+      // 最初は右向き立ち
+      currentWalkImages = walkRightImages;
+      heroChar.src = currentWalkImages[0];
+
       setInitialPosition();
 
       // 数秒ごとに移動
       setInterval(moveCharacter, 7000);
 
-      // クリックでプレゼント
-      heroArea.addEventListener("click", givePresent);
+      // プレゼントボタン
+      giftButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const giftType = btn.dataset.gift;
+          givePresent(giftType);
+        });
+      });
 
-      // 画面サイズが変わったら位置をリセット
+      // 画面サイズ変更時の位置リセット
       window.addEventListener("resize", () => {
         setInitialPosition();
       });
