@@ -1,20 +1,176 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>My Game Links</title>
+  <title>私のゲーム置き場</title>
+
+  <!-- かわいい丸ゴシックフォント（Google Fonts） -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* 全体 */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "M PLUS Rounded 1c", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #fff7fb;            /* うすいピンク背景 */
+      color: #333;
+    }
+
+    /* 真ん中に箱を置く */
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 24px;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    }
+
+    /* ヘッダー */
+    .site-title {
+      font-size: 2.4rem;
+      margin: 0 0 4px;
+    }
+    .site-subtitle {
+      margin: 0 0 24px;
+      color: #777;
+      font-size: 0.95rem;
+    }
+
+    /* あとで自作イラストを差し込む用のエリア */
+    .hero {
+      width: 100%;
+      height: 220px;
+      border-radius: 16px;
+      background: repeating-linear-gradient(
+        45deg,
+        #ffe3f4,
+        #ffe3f4 10px,
+        #fdf9ff 10px,
+        #fdf9ff 20px
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-text {
+      font-size: 1.2rem;
+      background: rgba(255,255,255,0.8);
+      padding: 8px 16px;
+      border-radius: 999px;
+    }
+
+    /* ゲーム一覧 */
+    .section-title {
+      font-size: 1.4rem;
+      margin: 24px 0 12px;
+    }
+
+    .game-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      list-style: none;
+      padding: 0;
+      margin: 0 0 24px;
+    }
+
+    .game-card {
+      background: #fffafd;
+      border-radius: 16px;
+      padding: 14px 16px;
+      border: 1px solid #ffe2ff;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .game-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+    }
+
+    .game-title {
+      margin: 0 0 4px;
+      font-size: 1.1rem;
+    }
+
+    .game-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #ffeaf4;
+      color: #c25f94;
+      margin-bottom: 6px;
+    }
+
+    .game-desc {
+      margin: 0 0 8px;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .game-link {
+      font-size: 0.9rem;
+      text-decoration: none;
+      color: #4b61c6;
+    }
+    .game-link:hover {
+      text-decoration: underline;
+    }
+
+    /* フッター */
+    footer {
+      font-size: 0.8rem;
+      color: #888;
+      text-align: center;
+      margin-top: 12px;
+    }
+  </style>
 </head>
 <body>
-  <h1>私のゲーム置き場</h1>
-亭
-  <h2>ブラウザゲーム</h2>
-  <ul>
-    <li><a href="ゲームのURL">ゲームタイトル</a></li>
-    <li><a href="ゲームのURL">ゲームタイトル</a></li>
-  </ul>
+  <div class="container">
+    <header>
+      <h1 class="site-title">私のゲーム置き場</h1>
+      <p class="site-subtitle">つくったゲームを、すこしずつ並べていく場所。</p>
 
-  <hr>
+      <!-- ここにそのうち自作イラストを<img>で差し込んでもOK -->
+      <div class="hero">
+        <div class="hero-text">いらっしゃいませ。ゲームで遊んでいってね。</div>
+      </div>
+    </header>
 
-  <p>© 2025 お肴亭</p>
+    <main>
+      <h2 class="section-title">ブラウザゲーム</h2>
+      <ul class="game-list">
+        <li class="game-card">
+          <p class="game-tag">アクション</p>
+          <h3 class="game-title">ゲームタイトル1</h3>
+          <p class="game-desc">ジャンプしてゴールを目指す、短めのアクションゲーム。</p>
+          <a class="game-link" href="ゲームURL1" target="_blank" rel="noopener noreferrer">
+            ▶ このゲームで遊ぶ
+          </a>
+        </li>
+
+        <li class="game-card">
+          <p class="game-tag">パズル</p>
+          <h3 class="game-title">ゲームタイトル2</h3>
+          <p class="game-desc">ブロックを動かしてゴールまでの道をつくるパズル。</p>
+          <a class="game-link" href="ゲームURL2" target="_blank" rel="noopener noreferrer">
+            ▶ このゲームで遊ぶ
+          </a>
+        </li>
+      </ul>
+    </main>
+
+    <footer>
+      © 2025 おさかな
+    </footer>
+  </div>
 </body>
 </html>
