@@ -304,7 +304,7 @@
       background: #ffffff;
     }
 
-    /* ===== メッセージボックス（外枠は今まで通り） ===== */
+    /* ===== メッセージボックス（外枠） ===== */
     .message-section {
       margin-top: 32px;
       padding: 20px 18px 24px;
@@ -488,31 +488,34 @@
       <h2 class="section-title">メッセージボックス</h2>
       <p>龍水やお肴亭宛てに、400文字までのおてがみを送れます。</p>
 
-      <!-- ★ここが Googleフォームに POST する本体 -->
-      <!-- action と name="entry.XXXX" は、作成したフォームに合わせて書き換えてね -->
       <form
         class="letter-form"
-        action="https://docs.google.com/forms/d/e/https://forms.gle/4ej2Es79Zk8PKXvr8/formResponse"
+        action="https://docs.google.com/forms/d/e/1FAIpQLScc7JaqRPjBNMWrk2vBHMwXIf-KvzUc_mdA81_1UkMvPS0Fjw/formResponse"
         method="POST"
         target="_blank"
       >
-        <!-- 差出人（ニックネーム） -->
+        <!-- おなまえ -->
         <label class="letter-label">
           おなまえ（ニックネーム可）
-          <!-- ★name="entry.xxxxx" は Googleフォーム側の1問目のIDに合わせる -->
-          <input type="text" name="entry.1111111111" class="letter-input">
+          <input
+            type="text"
+            name="entry.1919304672"
+            class="letter-input"
+            maxlength="20"
+            placeholder="ペンネームでもOK"
+          >
         </label>
 
         <!-- 本文 -->
         <label class="letter-label">
           おてがみ本文（400文字まで）
           <div class="letter-paper">
-            <!-- ★name="entry.yyyyy" は Googleフォーム側の2問目のIDに合わせる -->
             <textarea
               id="letter-message"
-              name="entry.2222222222"
+              name="entry.2065965473"
               class="letter-textarea"
               maxlength="400"
+              placeholder="ゆるっと一言どうぞ。"
             ></textarea>
           </div>
           <div class="letter-counter">
@@ -559,7 +562,7 @@
     let walkFrame    = 0;
     let walkInterval = null;
 
-    let isReacting = false;  // プレゼント反応中か
+    let isReacting = false;  // プレゼント反応中かどうか
 
     // ランダムな初期位置
     function setInitialPositionRandom() {
@@ -661,7 +664,6 @@
 
     if (omikujiStart) {
       omikujiStart.addEventListener("click", () => {
-        // 選択モードへ
         omikujiInner.classList.add("is-selecting");
         omikujiInner.classList.remove("is-result");
         omikujiStart.style.display  = "none";
@@ -675,7 +677,6 @@
         const choiceBtn = event.target.closest(".omikuji-choice");
         if (!choiceBtn) return;
 
-        // ランダムで1〜4の結果
         const n = Math.floor(Math.random() * 4) + 1;
         omikujiResultImage.src = `img/omikuzi_kekka_${n}.png`;
 
