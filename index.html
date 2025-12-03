@@ -5,9 +5,12 @@
   <title>お肴亭のゲーム置き場</title>
 
   <!-- 丸めフォント -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap"
+      rel="stylesheet">
+
 
   <style>
     /* ===== 全体・テーマカラー（プリン系黄色） ===== */
@@ -23,10 +26,11 @@
 
     body {
       margin: 0;
-      font-family: "M PLUS Rounded 1c", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: "Zen Maru Gothic", "M PLUS Rounded 1c", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: radial-gradient(circle at top, #fffbe2 0, var(--pudding-bg) 55%, #fef3cf 100%);
       color: var(--choco-soft);
     }
+
 
     .page-container {
       max-width: 960px;
@@ -255,8 +259,9 @@
       padding: 0;
     }
 
+    /* おみくじメインアイコンの大きさを変えたい時はここ（width を調整） */
     .omikuji-main-icon img {
-      width: 180px;
+      width: 220px;
       max-width: 60%;
       display: block;
       margin: 0 auto;
@@ -276,8 +281,9 @@
       padding: 0;
     }
 
+    /* 選択肢3つの大きさはここ（width を調整） */
     .omikuji-choice img {
-      width: 120px;
+      width: 150px;
       max-width: 30vw;
       display: block;
     }
@@ -290,9 +296,18 @@
       margin-top: 8px;
     }
 
+    /* 結果画像の大きさ＋ふわっと表示アニメーション */
     .omikuji-result img {
-      max-width: 100%;
+      max-width: 100%;   /* 全体に対してどこまで広げるか */
       height: auto;
+      opacity: 0;
+      transform: scale(0.96);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .omikuji-result img.is-show {
+      opacity: 1;
+      transform: scale(1);
     }
 
     .omikuji-inner.is-selecting {
@@ -302,6 +317,68 @@
 
     .omikuji-inner.is-result {
       background: #ffffff;
+    }
+
+    /* 「＞おみくじについて」トリガー */
+    .omikuji-about-trigger {
+      margin-top: 8px;
+      font-size: 0.9rem;
+      color: var(--choco);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      text-decoration: underline;
+    }
+
+    /* おみくじ説明のオーバーレイ */
+    .omikuji-about-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      color: #ffffff;
+      display: none;           /* JSで display:flex にする */
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .omikuji-about-content {
+      max-width: 640px;
+      margin: 16px;
+      padding: 18px 20px 16px;
+      border-radius: 14px;
+      background: #111111;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      white-space: pre-wrap; /* 改行をそのまま表示 */
+    }
+
+    .omikuji-about-title {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .omikuji-about-text {
+      margin: 0 0 12px;
+    }
+
+    .omikuji-about-close {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid #ffffff;
+      background: transparent;
+      color: #ffffff;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .omikuji-about-close:active {
+      transform: translateY(1px);
     }
 
     /* ===== メッセージボックス（外枠） ===== */
@@ -428,14 +505,18 @@
       <div class="game-grid">
         <!-- 左：DRAGON Shooting -->
         <div class="game-card">
-          <!-- TODO: href にゲームのURLをセット -->
-          <a href="#" class="game-button">
+          <a
+            href="https://pierre14560221-glitch.github.io/pierre.github.io/"
+            class="game-button"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img src="img/DRAGONShooting_title.png" alt="DRAGON Shooting">
           </a>
           <p class="game-title">DRAGON<br>Shooting</p>
         </div>
 
-        <!-- 真ん中：coming soon -->
+        <!-- 真ん中：coming soon（反応なし） -->
         <div class="game-card">
           <a href="#" class="game-button is-disabled">
             <img src="img/comingsoon.png" alt="coming soon">
@@ -443,7 +524,7 @@
           <p class="game-title">coming soon</p>
         </div>
 
-        <!-- 右：coming soon -->
+        <!-- 右：coming soon（反応なし） -->
         <div class="game-card">
           <a href="#" class="game-button is-disabled">
             <img src="img/comingsoon.png" alt="coming soon">
@@ -481,6 +562,11 @@
           <img src="" alt="おみくじ結果" id="omikuji-result-image">
         </div>
       </div>
+
+      <!-- おみくじについて（説明トリガー） -->
+      <button type="button" class="omikuji-about-trigger" id="omikuji-about-open">
+        ＞おみくじについて
+      </button>
     </section>
 
     <!-- ④メッセージボックス（Googleフォーム連携のお手紙UI） -->
@@ -532,6 +618,32 @@
         ※ 送信すると、Googleフォームに記録されて別タブで確認画面が開きます。
       </p>
     </section>
+  </div>
+
+  <!-- おみくじ説明のオーバーレイ本体 -->
+  <div class="omikuji-about-overlay" id="omikuji-about-overlay">
+    <div class="omikuji-about-content">
+      <p class="omikuji-about-title">おみくじについて（ご利用にあたってのお願い）</p>
+      <p class="omikuji-about-text">
+このおみくじは 非公式のファンメイド作品 です。
+
+おみくじ結果のスクリーンショットを撮って友人に見せたり、結果共有を目的としてSNSに投稿することは問題ありません。
+お気軽に楽しんでください。
+
+ただし、
+・Dr.STONE公式アカウントの投稿へのリプライへ使用する
+（公式へ直接届ける形で共有する行為）
+・公式ハッシュタグ（#DrSTONE）を付けて投稿する
+
+といった使い方は、恐れ入りますがお控えいただけますと幸いです🙇‍♂️
+
+今後もおみくじの種類を増やしていきますので、
+引き続きゆる～く遊んでいただけたら嬉しいです👍
+      </p>
+      <button type="button" class="omikuji-about-close" id="omikuji-about-close">
+        ＞戻る
+      </button>
+    </div>
   </div>
 
   <script>
@@ -679,13 +791,51 @@
 
         const n = Math.floor(Math.random() * 4) + 1;
         omikujiResultImage.src = `img/omikuzi_kekka_${n}.png`;
+        omikujiResultImage.classList.remove("is-show");
 
         omikujiInner.classList.remove("is-selecting");
         omikujiInner.classList.add("is-result");
         omikujiChoices.style.display = "none";
         omikujiResult.style.display  = "flex";
+
+        // 次のフレームでクラスを付けて、ふわっと表示
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            omikujiResultImage.classList.add("is-show");
+          });
+        });
       });
     }
+
+    /* おみくじ説明オーバーレイ */
+    const aboutOpen    = document.getElementById("omikuji-about-open");
+    const aboutOverlay = document.getElementById("omikuji-about-overlay");
+    const aboutClose   = document.getElementById("omikuji-about-close");
+
+    if (aboutOpen && aboutOverlay && aboutClose) {
+      aboutOpen.addEventListener("click", () => {
+        aboutOverlay.style.display = "flex";
+      });
+
+      aboutClose.addEventListener("click", () => {
+        aboutOverlay.style.display = "none";
+      });
+
+      // 黒いところをクリックしても閉じられるように
+      aboutOverlay.addEventListener("click", (event) => {
+        if (event.target === aboutOverlay) {
+          aboutOverlay.style.display = "none";
+        }
+      });
+    }
+
+    /* coming soon ボタンは反応しないようにする */
+    const disabledGameButtons = document.querySelectorAll(".game-button.is-disabled");
+    disabledGameButtons.forEach(btn => {
+      btn.addEventListener("click", (event) => {
+        event.preventDefault();
+      });
+    });
 
     /* ===== 手紙フォーム：文字数カウンター ===== */
     const letterTextarea = document.getElementById("letter-message");
