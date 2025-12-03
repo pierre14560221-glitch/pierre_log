@@ -18,6 +18,7 @@
       --choco: #5c4630;
       --choco-soft: #6b5847;
       --panel-bg: #fffaf0;
+      --accent-pink: #ffbdd8;
     }
 
     body {
@@ -35,7 +36,13 @@
 
     h1 {
       font-size: 2rem;
-      margin: 24px 0 8px;
+      margin: 0 0 8px;
+      color: var(--choco);
+    }
+
+    h2.section-title {
+      font-size: 1.4rem;
+      margin: 24px 0 6px;
       color: var(--choco);
     }
 
@@ -47,7 +54,7 @@
     .hero-wrapper {
       position: relative;
       width: 100%;
-      height: 420px;       /* 高さはここで調整 */
+      height: 420px;
       overflow: hidden;
       background: var(--pudding-soft);
       border-bottom: 4px solid var(--pudding-deep);
@@ -144,7 +151,7 @@
       transform: translate(-50%, -2px);
     }
 
-    /* ===== 下の本文パネル ===== */
+    /* ===== 共通パネル ===== */
     .content-panel {
       margin-top: 28px;
       padding: 20px 18px 24px;
@@ -152,49 +159,299 @@
       background: var(--panel-bg);
       box-shadow: 0 4px 14px rgba(92, 70, 48, 0.15);
     }
+
+    /* ===== ゲーム一覧 ===== */
+    .game-section {
+      margin-top: 28px;
+    }
+
+    .game-grid {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .game-card {
+      flex: 1 1 calc(33.333% - 10px);
+      max-width: 210px;
+      text-align: center;
+    }
+
+    .game-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 22px;
+      background: var(--pudding-soft);
+      border: 3px solid var(--pudding-deep);
+      box-shadow: 0 4px 0 rgba(92, 70, 48, 0.35);
+      text-decoration: none;
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    }
+
+    .game-button img {
+      max-width: 80%;
+      max-height: 80%;
+      display: block;
+    }
+
+    .game-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0 rgba(92, 70, 48, 0.4);
+      background: #ffeec2;
+    }
+
+    .game-button:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 0 rgba(92, 70, 48, 0.35);
+      background: #f4d889;
+    }
+
+    .game-button.is-disabled {
+      opacity: 0.8;
+      cursor: default;
+    }
+
+    .game-title {
+      margin: 6px 0 0;
+      font-size: 0.9rem;
+      line-height: 1.2;
+    }
+
+    @media (max-width: 600px) {
+      .game-card {
+        flex: 1 1 calc(33.333% - 8px);
+      }
+    }
+
+    /* ===== おみくじ ===== */
+    .omikuji-section {
+      margin-top: 32px;
+    }
+
+    .omikuji-inner {
+      margin-top: 8px;
+      padding: 18px 12px 20px;
+      border-radius: 20px;
+      background: var(--panel-bg);
+      box-shadow: 0 4px 14px rgba(92, 70, 48, 0.15);
+      text-align: center;
+      min-height: 240px;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .omikuji-main-icon {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .omikuji-main-icon img {
+      width: 180px;
+      max-width: 60%;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .omikuji-choice-row {
+      display: none;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    .omikuji-choice {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .omikuji-choice img {
+      width: 120px;
+      max-width: 30vw;
+      display: block;
+    }
+
+    .omikuji-result {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      margin-top: 8px;
+    }
+
+    .omikuji-result img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .omikuji-inner.is-selecting {
+      background-image: url("img/omikuzi_sentaku.png");
+      background-color: transparent;
+    }
+
+    .omikuji-inner.is-result {
+      background: #ffffff;
+    }
+
+    /* ===== メッセージボックス ===== */
+    .message-section {
+      margin-top: 32px;
+      padding: 20px 18px 24px;
+      border-radius: 20px;
+      background: var(--panel-bg);
+      box-shadow: 0 4px 14px rgba(92, 70, 48, 0.12);
+    }
+
+    .message-button {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: var(--accent-pink);
+      color: var(--choco);
+      text-decoration: none;
+      font-size: 0.95rem;
+      box-shadow: 0 3px 0 rgba(92, 70, 48, 0.3);
+      transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
+    }
+
+    .message-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 0 rgba(92, 70, 48, 0.35);
+      background: #ffcfe2;
+    }
+
+    .message-button:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 0 rgba(92, 70, 48, 0.3);
+      background: #f6aecd;
+    }
   </style>
 </head>
 <body>
 
-  <!-- ヒーローエリア -->
+  <!-- ①ヒーロールーム -->
   <section class="hero-wrapper" id="hero-area">
     <img src="img/hero-room.png" alt="龍水の部屋" class="hero-background">
 
     <!-- 歩き回るキャラクター -->
     <img src="img/rightwalk1.png" alt="龍水" class="hero-character" id="hero-character">
 
-    <!-- 左下ギフト欄 -->
-  <div class="hero-gift-panel">
-    <button class="gift-icon" data-gift="softcream">
-      <img src="img/icon-softcream.png" alt="ソフトクリーム">
-      <span class="gift-tooltip">ソフトクリーム</span>
-    </button>
-    <button class="gift-icon" data-gift="bread">
-      <img src="img/icon-bread.png" alt="パン">
-      <span class="gift-tooltip">完全栄養食</span>
-    </button>
-  </div>
-
+    <!-- 左下ギフト欄（ソフトクリーム→パンの順） -->
+    <div class="hero-gift-panel">
+      <button class="gift-icon" data-gift="softcream">
+        <img src="img/icon-softcream.png" alt="ソフトクリーム">
+        <span class="gift-tooltip">ソフトクリーム</span>
+      </button>
+      <button class="gift-icon" data-gift="bread">
+        <img src="img/icon-bread.png" alt="パン">
+        <span class="gift-tooltip">フランソワの完全栄養食</span>
+      </button>
+    </div>
   </section>
 
-  <!-- 下の本文。ここにゲーム一覧とか置いていく -->
   <div class="page-container">
+
+    <!-- タイトルだけのパネル（説明） -->
     <div class="content-panel">
       <h1>お肴亭のゲーム置き場</h1>
-      <p>この下にゲーム一覧やイラストギャラリーを置いていく予定です。</p>
+      <p>ここでは、ねこが作ったゲームやおみくじ、メッセージボックスで遊べます。</p>
     </div>
+
+    <!-- ②ゲーム一覧 -->
+    <section class="game-section" id="games">
+      <h2 class="section-title">ゲーム</h2>
+      <div class="game-grid">
+        <!-- 左：DRAGON Shooting -->
+        <div class="game-card">
+          <!-- TODO: href にゲームのURLをセット -->
+          <a href="#" class="game-button">
+            <img src="img/DRAGONShooting_title.png" alt="DRAGON Shooting">
+          </a>
+          <p class="game-title">DRAGON<br>Shooting</p>
+        </div>
+
+        <!-- 真ん中：coming soon -->
+        <div class="game-card">
+          <a href="#" class="game-button is-disabled">
+            <img src="img/comingsoon.png" alt="coming soon">
+          </a>
+          <p class="game-title">coming soon</p>
+        </div>
+
+        <!-- 右：coming soon -->
+        <div class="game-card">
+          <a href="#" class="game-button is-disabled">
+            <img src="img/comingsoon.png" alt="coming soon">
+          </a>
+          <p class="game-title">coming soon</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ③おみくじ -->
+    <section class="omikuji-section" id="omikuji">
+      <h2 class="section-title">おみくじ</h2>
+      <p>アイコンをタップして、お肴亭オリジナルおみくじを引いてみよう。</p>
+      <div class="omikuji-inner" id="omikuji-inner">
+        <!-- 最初のアイコン -->
+        <button class="omikuji-main-icon" id="omikuji-start">
+          <img src="img/omikuzi_icon.png" alt="おみくじ">
+        </button>
+
+        <!-- 選択画面の3つのアイコン -->
+        <div class="omikuji-choice-row" id="omikuji-choices">
+          <button class="omikuji-choice" data-choice="1">
+            <img src="img/omikuzi_icon1.png" alt="おみくじ1">
+          </button>
+          <button class="omikuji-choice" data-choice="2">
+            <img src="img/omikuzi_icon2.png" alt="おみくじ2">
+          </button>
+          <button class="omikuji-choice" data-choice="3">
+            <img src="img/omikuzi_icon3.png" alt="おみくじ3">
+          </button>
+        </div>
+
+        <!-- 結果表示 -->
+        <div class="omikuji-result" id="omikuji-result">
+          <img src="" alt="おみくじ結果" id="omikuji-result-image">
+        </div>
+      </div>
+    </section>
+
+    <!-- ④メッセージボックス（見た目だけ / Googleフォームは後でURL差し込み） -->
+    <section class="message-section" id="message">
+      <h2 class="section-title">メッセージボックス</h2>
+      <p>龍水やねこに一言送りたい方はこちらからどうぞ。</p>
+      <p>ボタンを押すと、メッセージ入力用のGoogleフォームが別タブで開きます。</p>
+      <!-- ↓あなたのフォームURLに差し替えてね -->
+      <a href="https://docs.google.com/forms/d/あなたのフォームID/viewform"
+         target="_blank" rel="noopener noreferrer" class="message-button">
+        メッセージを送る
+      </a>
+    </section>
   </div>
 
   <script>
+    /* ===== ヒーロー：移動＆ギフト ===== */
     const heroArea   = document.getElementById("hero-area");
     const heroChar   = document.getElementById("hero-character");
     const giftIcons  = document.querySelectorAll(".gift-icon");
 
-    /* 歩きモーション画像 */
     const walkRightImages = ["img/rightwalk1.png", "img/rightwalk2.png"];
     const walkLeftImages  = ["img/leftwalk1.png",  "img/leftwalk2.png"];
 
-    /* プレゼント反応画像（向き別） */
     const presentImages = {
       bread: {
         right: "img/ryusui-rightBread.png",
@@ -206,7 +463,6 @@
       },
     };
 
-    /* 状態 */
     let currentX = 0;
     let currentY = 0;
     let facing   = 1;  // 1:右, -1:左
@@ -215,9 +471,7 @@
     let walkFrame    = 0;
     let walkInterval = null;
 
-    let isReacting = false;  // プレゼント反応中かどうか
-
-    /* ===== 位置関連 ===== */
+    let isReacting = false;  // プレゼント反応中か
 
     // ランダムな初期位置
     function setInitialPositionRandom() {
@@ -229,7 +483,6 @@
       const minX = marginX;
       const maxX = areaRect.width - charWidth - marginX;
 
-      // 上すぎても下すぎても変なので、縦方向は少し絞る
       const minY = areaRect.height * 0.25;
       const maxY = areaRect.height - charHeight - 10;
 
@@ -239,7 +492,6 @@
       heroChar.style.transform = `translate(${currentX}px, ${currentY}px)`;
     }
 
-    // 歩きアニメ開始（direction: 1=右, -1=左）
     function startWalkAnimation(direction) {
       if (walkInterval) return;
       currentWalkImages = direction === 1 ? walkRightImages : walkLeftImages;
@@ -262,7 +514,6 @@
       heroChar.src = currentWalkImages[0];
     }
 
-    // ランダム移動
     function moveCharacter() {
       if (isReacting) return;
 
@@ -280,27 +531,20 @@
       const targetX = minX + Math.random() * Math.max(maxX - minX, 0);
       const targetY = minY + Math.random() * Math.max(maxY - minY, 0);
 
-      // 向き判定
       facing = targetX < currentX ? -1 : 1;
 
-      // 歩き開始
       startWalkAnimation(facing);
 
-      // 目的地へゆっくり移動
       heroChar.style.transform = `translate(${targetX}px, ${targetY}px)`;
-
       currentX = targetX;
       currentY = targetY;
 
-      // 数秒後に足踏み停止
       setTimeout(() => {
         if (!isReacting) {
           stopWalkAnimation();
         }
       }, 6000);
     }
-
-    /* ===== プレゼント関連 ===== */
 
     function givePresent(type) {
       if (isReacting) return;
@@ -314,26 +558,54 @@
       const imgPath = (facing === 1) ? set.right : set.left;
       heroChar.src = imgPath;
 
-      // 一定時間表示したら元の立ちポーズに戻る
       setTimeout(() => {
         isReacting = false;
         heroChar.src = currentWalkImages[0];
       }, 2500);
     }
 
-    /* ===== 初期化 ===== */
+    /* ===== おみくじ ===== */
+    const omikujiInner       = document.getElementById("omikuji-inner");
+    const omikujiStart       = document.getElementById("omikuji-start");
+    const omikujiChoices     = document.getElementById("omikuji-choices");
+    const omikujiResult      = document.getElementById("omikuji-result");
+    const omikujiResultImage = document.getElementById("omikuji-result-image");
 
+    if (omikujiStart) {
+      omikujiStart.addEventListener("click", () => {
+        // 選択モードへ
+        omikujiInner.classList.add("is-selecting");
+        omikujiInner.classList.remove("is-result");
+        omikujiStart.style.display  = "none";
+        omikujiResult.style.display = "none";
+        omikujiChoices.style.display = "flex";
+      });
+    }
+
+    if (omikujiChoices) {
+      omikujiChoices.addEventListener("click", (event) => {
+        const choiceBtn = event.target.closest(".omikuji-choice");
+        if (!choiceBtn) return;
+
+        // ランダムで1〜4の結果
+        const n = Math.floor(Math.random() * 4) + 1;
+        omikujiResultImage.src = `img/omikuzi_kekka_${n}.png`;
+
+        omikujiInner.classList.remove("is-selecting");
+        omikujiInner.classList.add("is-result");
+        omikujiChoices.style.display = "none";
+        omikujiResult.style.display  = "flex";
+      });
+    }
+
+    /* ===== 全体初期化 ===== */
     window.addEventListener("load", () => {
-      // 最初は右向き立ち
       currentWalkImages = walkRightImages;
       heroChar.src = currentWalkImages[0];
 
       setInitialPositionRandom();
-
-      // 数秒ごとに移動
       setInterval(moveCharacter, 7000);
 
-      // ギフトアイコン
       giftIcons.forEach(btn => {
         btn.addEventListener("click", () => {
           const giftType = btn.dataset.gift;
@@ -341,7 +613,6 @@
         });
       });
 
-      // 画面サイズ変更時：位置を取り直す（簡単リセット）
       window.addEventListener("resize", () => {
         setInitialPositionRandom();
       });
