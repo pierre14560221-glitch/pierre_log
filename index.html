@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <title>お肴亭のゲーム置き場</title>
 
-  <!-- 丸めフォント -->
+  <!-- 丸めフォント（ZEN丸ゴシック） -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
     /* ===== 全体・テーマカラー（プリン系黄色） ===== */
@@ -23,7 +23,7 @@
 
     body {
       margin: 0;
-      font-family: "M PLUS Rounded 1c", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: "Zen Maru Gothic", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: radial-gradient(circle at top, #fffbe2 0, var(--pudding-bg) 55%, #fef3cf 100%);
       color: var(--choco-soft);
     }
@@ -186,10 +186,9 @@
       width: 100%;
       aspect-ratio: 1 / 1;
       border-radius: 22px;
-    .game-button {
-      background: #f3dfc2;
-      border: 3px solid #7a4a21;
-      box-shadow: 0 4px 0 rgba(80, 45, 15, 0.6););
+      background: #f3dfc2;                     /* カラメル風ベージュ */
+      border: 3px solid #7a4a21;               /* こい茶色の枠 */
+      box-shadow: 0 4px 0 rgba(80, 45, 15, 0.6);
       text-decoration: none;
       cursor: pointer;
       overflow: hidden;
@@ -205,13 +204,13 @@
     .game-button:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 0 rgba(92, 70, 48, 0.4);
-      background: #ffeec2;
+      background: #f8e7cf;
     }
 
     .game-button:active {
       transform: translateY(1px);
       box-shadow: 0 2px 0 rgba(92, 70, 48, 0.35);
-      background: #f4d889;
+      background: #e8cfa9;
     }
 
     .game-button.is-disabled {
@@ -295,7 +294,7 @@
 
     /* 結果画像の大きさ＋ふわっと表示アニメーション */
     .omikuji-result img {
-      max-width: 40%;   /* 全体に対してどこまで広げるか */
+      max-width: 40%;
       height: auto;
       opacity: 0;
       transform: scale(0.96);
@@ -334,7 +333,7 @@
       inset: 0;
       background: rgba(0, 0, 0, 0.9);
       color: #ffffff;
-      display: none;           /* JSで display:flex にする */
+      display: none;
       align-items: center;
       justify-content: center;
       z-index: 9999;
@@ -349,7 +348,7 @@
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
       font-size: 0.9rem;
       line-height: 1.6;
-      white-space: pre-wrap; /* 改行をそのまま表示 */
+      white-space: pre-wrap;
     }
 
     .omikuji-about-title {
@@ -692,7 +691,7 @@
     }
 
     function startWalkAnimation(direction) {
-      if (walkInterval) return;
+      if (walkInterval || isReacting) return;
       currentWalkImages = direction === 1 ? walkRightImages : walkLeftImages;
 
       heroChar.src = currentWalkImages[0];
@@ -794,7 +793,6 @@
         omikujiChoices.style.display = "none";
         omikujiResult.style.display  = "flex";
 
-        // 次のフレームでクラスを付けて、ふわっと表示
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             omikujiResultImage.classList.add("is-show");
@@ -817,7 +815,6 @@
         aboutOverlay.style.display = "none";
       });
 
-      // 黒いところをクリックしても閉じられるように
       aboutOverlay.addEventListener("click", (event) => {
         if (event.target === aboutOverlay) {
           aboutOverlay.style.display = "none";
