@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <title>お肴亭のゲーム置き場</title>
 
-  <!-- 丸めフォント（ZEN丸ゴシック） -->
+  <!-- ZEN丸ゴシック -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    /* ===== 全体・テーマカラー（プリン系黄色） ===== */
+    /* ===== 色 ===== */
     :root {
       --pudding-bg: #fff7d1;
       --pudding-deep: #f1d37a;
@@ -80,7 +80,7 @@
       transform-origin: center bottom;
     }
 
-    /* ===== ヒーロー内ギフト欄（左下） ===== */
+    /* ===== ヒーロー内ギフト欄 ===== */
     .hero-gift-panel {
       position: absolute;
       left: 18px;
@@ -186,8 +186,8 @@
       width: 100%;
       aspect-ratio: 1 / 1;
       border-radius: 22px;
-      background: #f3dfc2;                     /* カラメル風ベージュ */
-      border: 3px solid #7a4a21;               /* こい茶色の枠 */
+      background: #f3dfc2;
+      border: 3px solid #7a4a21;
       box-shadow: 0 4px 0 rgba(80, 45, 15, 0.6);
       text-decoration: none;
       cursor: pointer;
@@ -255,7 +255,7 @@
       padding: 0;
     }
 
-    /* おみくじメインアイコン 大きさ */
+
     .omikuji-main-icon img {
       width: 210px;
       max-width: 70%;
@@ -277,7 +277,7 @@
       padding: 0;
     }
 
-    /* 選択肢3つ 大きさ */
+
     .omikuji-choice img {
       width: 140px;
       max-width: 35vw;
@@ -292,7 +292,7 @@
       margin-top: 8px;
     }
 
-    /* 結果画像の大きさ＋ふわっと表示アニメーション */
+
     .omikuji-result img {
       max-width: 40%;
       height: auto;
@@ -315,7 +315,7 @@
       background: #ffffff;
     }
 
-    /* 「＞おみくじについて」トリガー */
+
     .omikuji-about-trigger {
       margin-top: 8px;
       font-size: 0.9rem;
@@ -327,7 +327,7 @@
       text-decoration: underline;
     }
 
-    /* おみくじ説明のオーバーレイ */
+
     .omikuji-about-overlay {
       position: fixed;
       inset: 0;
@@ -377,7 +377,7 @@
       transform: translateY(1px);
     }
 
-    /* ===== メッセージボックス（外枠） ===== */
+    /* ===== メッセージボックス ===== */
     .message-section {
       margin-top: 32px;
       padding: 20px 18px 24px;
@@ -386,7 +386,7 @@
       box-shadow: 0 4px 14px rgba(92, 70, 48, 0.12);
     }
 
-    /* ===== 手紙フォーム（中身の見た目） ===== */
+    /* ===== メッセージボックス（中） ===== */
     .letter-form {
       max-width: 560px;
       margin: 12px auto 0;
@@ -474,7 +474,7 @@
     <!-- 歩き回るキャラクター -->
     <img src="img/rightwalk1.png" alt="龍水" class="hero-character" id="hero-character">
 
-    <!-- 左下ギフト欄（ソフトクリーム→パンの順） -->
+    <!-- 左下ギフト欄 -->
     <div class="hero-gift-panel">
       <button class="gift-icon" data-gift="softcream">
         <img src="img/icon-softcream.png" alt="ソフトクリーム">
@@ -489,7 +489,7 @@
 
   <div class="page-container">
 
-    <!-- タイトルだけのパネル（説明） -->
+    <!-- タイトルだけのパネル -->
     <div class="content-panel">
       <h1>お肴亭のゲーム置き場</h1>
       <p>ここでは、お肴亭が作ったゲームやおみくじで遊べます。</p>
@@ -512,7 +512,7 @@
           <p class="game-title">DRAGON<br>Shooting</p>
         </div>
 
-        <!-- 真ん中：coming soon（反応なし） -->
+        <!-- 真ん中：coming soon -->
         <div class="game-card">
           <a href="#" class="game-button is-disabled">
             <img src="img/comingsoon.png" alt="coming soon">
@@ -520,7 +520,7 @@
           <p class="game-title">coming soon</p>
         </div>
 
-        <!-- 右：coming soon（反応なし） -->
+        <!-- 右：coming soon -->
         <div class="game-card">
           <a href="#" class="game-button is-disabled">
             <img src="img/comingsoon.png" alt="coming soon">
@@ -559,16 +559,16 @@
         </div>
       </div>
 
-      <!-- おみくじについて（説明トリガー） -->
+      <!-- おみくじについて -->
       <button type="button" class="omikuji-about-trigger" id="omikuji-about-open">
         ＞おみくじについて
       </button>
     </section>
 
-    <!-- ④メッセージボックス（Googleフォーム連携のお手紙UI） -->
+    <!-- ④メッセージボックス -->
     <section class="message-section" id="message">
       <h2 class="section-title">メッセージボックス</h2>
-      <p>お肴亭宛てに、400文字までのおてがみを送れます。</p>
+      <p>お肴亭宛てに、おてがみを送れます。</p>
 
       <form
         class="letter-form"
@@ -590,7 +590,7 @@
 
         <!-- 本文 -->
         <label class="letter-label">
-          おてがみ本文（400文字まで）
+          おてがみ本文
           <div class="letter-paper">
             <textarea
               id="letter-message"
@@ -615,7 +615,7 @@
     </section>
   </div>
 
-  <!-- おみくじ説明のオーバーレイ本体 -->
+  <!-- おみくじ説明のオーバーレイ -->
   <div class="omikuji-about-overlay" id="omikuji-about-overlay">
     <div class="omikuji-about-content">
       <p class="omikuji-about-title">おみくじについて（ご利用にあたってのお願い）</p>
@@ -822,7 +822,7 @@
       });
     }
 
-    /* coming soon ボタンは反応しないようにする */
+
     const disabledGameButtons = document.querySelectorAll(".game-button.is-disabled");
     disabledGameButtons.forEach(btn => {
       btn.addEventListener("click", (event) => {
